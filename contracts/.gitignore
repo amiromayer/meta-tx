@@ -1,0 +1,7 @@
+.env
+build/
+node_modules/
+other/
+token/build/
+betting/build
+.DS_Store
