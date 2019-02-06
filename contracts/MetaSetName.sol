@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 import "./ECRecover.sol";
 
-contract MetaTransaction is ECRecover {
+contract MetaSetName is ECRecover {
 
     mapping (address => uint) usedNonces;
     mapping (address => string) public names;

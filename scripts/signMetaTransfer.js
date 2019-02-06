@@ -11,12 +11,14 @@ console.log("Wallet address:", wallet.address);
 
 console.log("Private key:", wallet.privateKey);
 
-let message = "Dummy message to sign";
-console.log("Message to sign:", message);
-
+let to = "0x8c495eb5ed845d4da6d0529c38a3a4e8bd568ebc";
+let amount = 42;
 let nonce = 0;
 
-let msgHash = utils.solidityKeccak256(["string", "uint256"], [message, nonce]);
+let msgHash = utils.solidityKeccak256(
+  ["address", "uint256", "uint256"],
+  [to, amount, nonce]
+);
 console.log("Message hash:", msgHash);
 
 let hashToSign = utils.arrayify(msgHash);
