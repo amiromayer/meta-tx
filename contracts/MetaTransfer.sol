@@ -1,9 +1,7 @@
-pragma solidity ^0.5.0;
-import "./ECRecover.sol";
+pragma solidity >= 0.5.0;
+import {ECRecover} from "./ECRecover.sol";
 
 contract MetaTransfer is ECRecover {
-
-    mapping (address => uint) usedNonces;
     
     mapping (address => uint) public balances;
     
@@ -14,18 +12,15 @@ contract MetaTransfer is ECRecover {
     function metaTransfer(bytes calldata _signature, address _to, uint _amount, uint _nonce) external {
         bytes32 messageHash = hashMessage(_to, _amount, _nonce);
         address signer = recoverSigner(messageHash, _signature);
-        require(_nonce == usedNonces[signer], "Invalid nonce.");
+        validateNonceForSigner(signer, _nonce);
         require(balances[signer] >= _amount, "Signer has insufficient funds.");
         balances[signer] -= _amount;
         balances[_to] += _amount;
-        
     }
-
-    // Signature methods
 
     function hashMessage(address _to, uint _amount, uint _nonce) 
         public 
-        view
+        pure
         returns (bytes32 _messageHash)
     {
         //Actually should also add contract address to avoid replay attacks
